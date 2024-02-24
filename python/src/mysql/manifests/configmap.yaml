@@ -1,0 +1,15 @@
+apiVersion: v1MYSQL_HOST
+kind: ConfigMap
+metadata:
+  name: mysql-initdb-config
+data:
+  initdb.sql: |
+    CREATE USER 'admin'@'localhost' IDENTIFIED BY 'password';
+    CREATE USER 'admin'@'%' IDENTIFIED BY 'password';
+    CREATE DATABASE auth;
+    GRANT ALL PRIVILEGES ON auth.* TO 'admin'@'localhost';
+    GRANT ALL PRIVILEGES ON auth.* TO 'admin'@'%';
+    FLUSH PRIVILEGES;
+    USE auth;
+    CREATE TABLE user (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, email VARCHAR(255) NOT NULL UNIQUE, password VARCHAR(255) NOT NULL);
+    INSERT INTO user (email, password) VALUES ('agasi@email.com', 'password');

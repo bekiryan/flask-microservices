@@ -9,7 +9,7 @@ mysql = MySQL(server)
 
 # config
 server.config['MYSQL_HOST'] = os.environ.get("MYSQL_HOST")
-server.config['MYSQL_PORT'] = os.environ.get("MYSQL_PORT")
+server.config['MYSQL_PORT'] = int(os.environ.get("MYSQL_PORT"))
 server.config['MYSQL_USER'] = os.environ.get("MYSQL_USER")
 server.config['MYSQL_PASSWORD'] = os.environ.get("MYSQL_PASSWORD")
 server.config['MYSQL_DB'] = os.environ.get("MYSQL_DB")
@@ -23,7 +23,7 @@ def login():
         return "missing credentials", 401
 
     cur = mysql.connection.cursor()
-    res = cur.execute(f"SELECT email, password FROM user WHERE email={auth.username}")
+    res = cur.execute("SELECT email, password FROM user WHERE email=%s", (auth.username, ))
 
     if res > 0:
         user_row = cur.fetchone()

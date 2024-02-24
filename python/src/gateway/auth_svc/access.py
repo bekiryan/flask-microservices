@@ -8,8 +8,8 @@ def login(request):
         return None, ("missing credentials", 401)
     
     basic_auth = auth.username, auth.password
-    response = request.post(f"http://{os.environ.get('AUTH_SVC_ADDRESS')}/login", auth=basic_auth)
+    response = requests.post(f"http://{os.environ.get('AUTH_SVC_ADDRESS')}/login", auth=basic_auth)
 
     if response.status_code == 200:
-        return response.txt, None
-    return None, (response.txt, response.status_code)
+        return response.text, None
+    return None, (response.text, response.status_code)
