@@ -1,4 +1,4 @@
-apiVersion: v1MYSQL_HOST
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: mysql-initdb-config

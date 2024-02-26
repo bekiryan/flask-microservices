@@ -9,7 +9,7 @@ from auth import validate
 from storage import util
 
 server = Flask(__name__)
-server.config["MONGO_URI"] = "mongodb://host.minikube.internal:27017/videos"
+server.config["MONGO_URI"] = f"mongodb://{os.environ.get('MONGO_URI')}:27017/videos"
 
 mongo = PyMongo(server)
 
@@ -32,6 +32,8 @@ def login():
 @server.route('/upload', methods=["POST"])
 def upload():
     access, err = validate.token(request)
+    if err:
+        return err
 
     access = json.loads(access)
 
